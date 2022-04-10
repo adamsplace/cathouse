@@ -35,8 +35,10 @@ ActiveRecord::Schema.define(version: 2022_04_10_002546) do
     t.string "title"
     t.text "body"
     t.integer "parent_id"
+    t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

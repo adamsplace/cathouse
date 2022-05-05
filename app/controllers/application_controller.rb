@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::API
     include ActionController::Cookies
+    rescue_from ActiveRecord::RecordInvalid, with: :record_not_valid
 
     before_action :authorized
 
@@ -15,6 +16,12 @@ class ApplicationController < ActionController::API
     end
 
     def authorized
-        render json: {}, status: :unauthorized unless logged_in?
+        render json: { message: "Please log in" }, 
+            status: :unauthorized unless logged_in?
+    end
+
+    def record_not_valid( invalid )
+        render json: { errors: invalid.record.errors.full_messages }, 
+            status: 422
     end
 end
